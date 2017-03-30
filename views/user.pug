@@ -4,11 +4,34 @@ block content
   table
     tr
        td
-            img(src=avatar_url, width='100px')
+            img(src=userInfo.avatar_url, width='100px')
        td
-            h1 Welcome to #{name} GitHub profile page 
-            p Created on #{created_at}
+            h1 Welcome to #{userInfo.name} GitHub profile page 
+            p Created on #{userInfo.created_at}
   
-  h2 Intro
-  p #{name} works at #{company} located in #{location}.
-  p #{bio}
+  h2 Info
+  p Located in #{userInfo.location}, #{userInfo.name} works at #{userInfo.company}.
+  p #{userInfo.bio}
+
+  h2 Repos
+  table(border=1)
+    tr
+        td
+            p name
+        td
+            p full name
+        td
+
+        td
+            p language
+
+        each val in userRepos
+            tr
+                td
+                    p #{val.name}
+                td
+                    p #{val.full_name}
+                td
+                    a(href='#{val.html_url}') Link
+                td
+                    p #{val.language}

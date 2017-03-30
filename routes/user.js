@@ -13,17 +13,21 @@ function formatData(data){
 }
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
- axios.get("https://api.github.com/users/wribeyre")
-     .then(function(response){
-           res.render('user', formatData(response.data));
-     })
-     .catch(function(error){
-         res.render('error',error.response)
+router.get('/:userId', function(req, res, next) {
+ axios.all([
+            axios.get("https://api.github.com/users/"+req.params.userId),
+            axios.get("https://api.github.com/users/"+req.params.userId+"/repos")
+            ])
+ .then(function(response){
+        var resp = {userInfo:formatData(response[0].data),userRepos:response[1].data};
+        res.render('user', resp);
+        }
+    )
+  .catch(function(error){
+      res.render('error',error.response)
+ });
 
-     })
- 
-  
+
 });
 
 module.exports = router;
